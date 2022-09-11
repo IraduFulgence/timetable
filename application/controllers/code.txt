@@ -1,0 +1,79 @@
+public function uploadteachers(){
+    if ($this->input->post('submit')) {
+    $path = 'uploads/';
+    $config['upload_path'] = $path;
+    $config['allowed_types'] = 'xlsx|xls|csv';
+    $config['remove_spaces'] = TRUE;
+    $this->load->library('upload', $config);
+    $this->upload->initialize($config);   
+             
+    if (!$this->upload->do_upload('uploadFile')) {
+    $error = array('error' => $this->upload->display_errors());
+    } else {
+    $data = array('upload_data' => $this->upload->data());
+    }
+    if(empty($error)){
+    if (!empty($data['upload_data']['file_name'])) {
+    $import_xls_file = $data['upload_data']['file_name'];
+    } else {
+    $import_xls_file = 0;
+    }
+    $inputFileName = $path . $import_xls_file;
+    $arr_file 	= explode('.', $inputFileName);
+    try {
+        $reader 	= new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $spreadsheet 	= $reader->load($inputFileName);
+			$sheet_data 	= $spreadsheet->getActiveSheet()->toArray();
+			$list 			= [];
+            foreach($sheet_data as $key => $val) {
+				if($key != 0) {
+					
+						$list [] = [
+							'Firstname'				=> $val[1],
+							'Lastname'			    => $val[2],
+							'email'				    => $val[3],
+							'faculity'				=> $val[4],
+							'level'					=> $val[5],
+							'reference'			    => $val[6],
+							'role' 			=> "teacher",
+							'status'				=> "0",
+						];
+					
+				}
+                if(file_exists($inputFileName))
+				unlink($inputFileName);
+			if(count($list) > 0) {
+				$result 	= $this->users->add_teacher($list);
+				if($result) {
+					redirect($this->agent->referrer());
+				} else {
+					die('something went wrong');
+				}
+			}               
+        } 
+                
+    } 
+    catch (Exception $e) {
+    // die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)
+    // . '": ' .$e->getMessage());
+    redirect($this->agent->referrer());
+    }
+    }else{
+    echo $error['error'];
+    }
+    }
+    // echo 'no data';
+    }
+
+
+
+
+
+$inserdata[$i]['Firstname'] = $row['1'];
+                    $inserdata[$i]['Lastname'] = $row['2'];
+                    $inserdata[$i]['email'] = $row['3'];
+                    $inserdata[$i]['faculity']= $row['4'];
+                    $inserdata[$i]['level'] = $row['5'];
+                    $inserdata[$i]['reference']= $row['6'];
+                    $inserdata[$i]['role'] = 'teacher';
+                    $inserdata[$i]['status'] = 0;
