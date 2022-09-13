@@ -691,25 +691,28 @@ public function uploadsubjects(){
      
         
     }
-    public function getsubje($id){
-	    $str1 = urldecode($id);
-		$this->db->select('title');
-		$this->db->where('title', $str1);
-		$district = $this->db->get('subjects')->result_array();
+    public function getsubjects()
+    {
+        # code...
+        $name = $this->input->get('name');
+        $semest = $this->input->get('semest');
+        
+        $str1 = urldecode($name);
+		$this->db->select('code,title');
+		$this->db->where('faculity', $str1);
+        $this->db->where('semester', $semest);
+		$subject = $this->db->get('subjects')->result_array();
 
 		
 		;
 		$output = '<option>Select Subject</option>';
 
-		// foreach ($districts as $district) {
-			$output .= '<option value="'. $district['title'] .'">' . $district['title'] . '</option>';
-		// }
+		foreach ($subject as $subjects) {
+			$output .= '<option value="'. $subjects['code'] .'">' . $subjects['title'] . '</option>';
+		}
 		
 		echo $output;
-		// echo $district['name'];
-		// echo view('_parts/_header',$data);
-		// echo view('_parts/_survey',$dat);
-		// echo 'hey';
-	} 
 
+        
+    }   
 }

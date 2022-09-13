@@ -54,13 +54,14 @@
 					</div>
 					
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="password" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password" id="password">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
                     <div class="wrap-input100 validate-input" data-validate="Retype password">
-						<input class="input100" type="password" name="cpassword" placeholder="Password">
+						<input class="input100" type="password" name="cpassword" placeholder="Retype Password" id="password2">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
+					<input type="checkbox" onclick="myFunction()"  style="margin-left: 20px;">&nbsp; Show Password
 
 					<div class="container-login100-form-btn m-t-32">
 						<button class="btn btn-info" name="register">
@@ -94,6 +95,23 @@
 	<script src="<?=base_url()?>styles/login/vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="<?=base_url()?>styles/login/js/main.js"></script>
+	<script>
+		function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+
+  var y = document.getElementById("password2");
+  if (y.type === "password") {
+    y.type = "text";
+  } else {
+    y.type = "password";
+  }
+} 
+	</script>
 
 </body>
 </html>

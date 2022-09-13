@@ -86,4 +86,4 @@ $route['updateacher']='dashboard/updateacher';
 $route['updatestudent']='dashboard/updatestudent';
 $route['addstudent']='dashboard/addstudent';
 $route['addlecturer']='dashboard/addteacher';
-$routes['getsubjects/(:alphanum)']='dashboard/getsubje/$1';
+$route['getsubjects']='dashboard/getsubjects';

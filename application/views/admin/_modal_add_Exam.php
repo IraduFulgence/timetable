@@ -84,17 +84,18 @@
 								<div class="control-group">
                                     <label class="control-label" for="inputPassword">Department:</label>
                                     <div class="controls">
-									<select name="department" class = "form-control" placeholder="Category" id="department">
+									<select name="department" class = "form-control" placeholder="Category" id="department" onchange="getsubjects()">
+                                    <option value="">Select Department</option>
                                       <option value="SOFTWARE ENGINEERING DAY">SOFTWARE ENGINEERING DAY</option>
                                       <option value="NETWORKING DAY">NETWORKING DAY</option>
-                                      <option value="INFORMATION MANAGEMENT DAY">INFORMATION MANAGEMENT DAY</option>
+                                      <option value="INFORMATION MANAGEMENT">INFORMATION MANAGEMENT DAY</option>
 	</select>
                                     </div>
                                 </div>
-                                <div class="control-group">
+                                <div class="control-group" style="display: none;" id="semestered">
                                     <label class="control-label" for="inputPassword">semester:</label>
                                     <div class="controls">
-									<select type="text" name="semester" class = "form-control" placeholder="Category">
+									<select type="text" name="semester" class = "form-control" placeholder="Category" onchange="getcodes(this)">
                                       <option value="1">1</option>
 									 <option value="2">2</option>
                                      <option value="3">3</option>
@@ -112,14 +113,10 @@
                                     <label class="control-label" for="inputPassword">Subject:</label>
                                     <div class="controls">
 									<select type="text" name="subject_code" class = "form-control" placeholder="Category" >
-                                       <option>--Select--</option>
-                                       <?php
-    foreach ($subjects as $subject) {
-        # code...
-    
-    ?>
-    <option value="<?= $subject['code']?>"><?= $subject['title']?></option>
-    <?php }?>	
+                                    <option value="0">Select Subject</option>
+										<?php foreach ($subject as $subjects) { ?>
+										<option value="<?= $subjects['code'] ?>"><?= $subjects['title'] ?></option>
+										 <?php } ?>
 	</select>
                                     </div>
                                 </div>
@@ -174,18 +171,25 @@
                                 </div>
                             </div>
 <script>
-function getsubjects(i){
-		
-        $.ajax({
-          
-          url: '<?= base_url() ?>/getsubjects/' + i.value,
-         method:"GET",
-     
-     success:function(data){
-      console.log(data);
-      $('select[name="district"]').html(data); 
+function getsubjects(){
+   var semester = document.getElementById('semestered');
+   semester.style.display ='block';
+          }
+          function getcodes(i){
+        var name = document.getElementById('department').value;
+        var semest = i.value;
+        var key = name +"&&"+ semest;
         
-     }
-        });
+$.ajax({
+  
+  url: '<?= base_url() ?>getsubjects',
+  method:"GET",
+  data: {'name':name,'semest':semest},
+success:function(data){
+console.log(data);
+$('select[name="subject_code"]').html(data); 
+
+}
+});
           }
 </script>
